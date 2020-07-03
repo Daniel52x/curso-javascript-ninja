@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    padding: 10px;
+}
+
+section {
+    width: 500px;
+    margin: 0 auto;
+}
+
+.visor{
+    margin-bottom: 10px;
+}
+.visor input{
+    width: calc( 80% + 26px);
+    height: 1.8rem;
+    display: block;
+    margin: 0 auto;
+    text-align: left;
+    text-align-last: end;
+}
+.box-btn{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.box-btn button{
+    width: 20%;
+    margin: 5px;
+    height: 50px;
+}
+.box-btn button.btn-dobro-tamanho{
+    width: calc(40% + 10px);
+}
