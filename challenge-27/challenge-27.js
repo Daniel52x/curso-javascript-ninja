@@ -22,80 +22,86 @@
     O método isNull deve retornar `true` se o valor for null ou undefined.
     */
 
-    function DOM( noDom ){
-        this.elements = doc.querySelectorAll(noDom);
+    function DOM(elements) {
+        this.element = doc.querySelectorAll(elements);
     }
 
-    // DOM.prototype.percorrer = function ( callBack ){
-    //     return Array.prototype.forEach.call( this.elements, callBack );
-    // };
-
-    // DOM.prototype.mapear = function( callBack ) {
-    //     return Array.prototype.map.call( this.elements, callBack );
-    // };
-
-    // DOM.prototype.filtrar = function( callBack ){
-    //     return Array.prototype.filter.call( this.elements, callBack );
-    // };
-
-    // DOM.prototype.getType = function( element ){
-    //     return Object.prototype.toString.call( element );
-    // };
-
-    // DOM.prototype.isArray = function( element ){
-    //     return this.getType( element ) === '[object Array]';
-    // };
-
-    // DOM.prototype.isFunction = function( element ){
-    //     return this.getType( element ) === '[object Function]';
-    // };
-
-    // DOM.prototype.isNull = function( element ){
-    //     return this.getType( element ) === '[object Null]' || this.getType( element ) === '[object Undefined]' ;
-    // };
-
-
-    
-    // $link.percorrer(function( item ){
-    //     console.log( item );
-    // });
-
-    // $link.mapear( function( item ){
-    //     console.log( item.className );
-    // });
-
-    // console.log( $link.filtrar( function( item, index ){
-    //     return index % 2 === 0;
-    // }));
-
-    DOM.prototype.forEach = function forEach(){
-        return Array.prototype.forEach.apply( this.elements, arguments );
+    DOM.prototype.on = function on(eventName, callback) {
+        Array.prototype.forEach.call(this.element, function(element) {
+        element.addEventListener(eventName, callback, false);
+        });
     };
 
-    DOM.prototype.map = function map(){
-        return Array.prototype.map.apply( this.elements, arguments );
+    DOM.prototype.off = function off(eventName, callback) {
+        Array.prototype.forEach.call(this.element, function(element) {
+        element.removeEventListener(eventName, callback, false);
+        });
     };
 
-    DOM.prototype.filter = function filter(){
-        return Array.prototype.filter.apply( this.elements, arguments );
+    DOM.prototype.get = function get() {
+        return this.element;
     };
 
-    DOM.prototype.reduce = function reduce(){
-        return Array.prototype.reduce.apply( this.elements, arguments );
+    DOM.prototype.forEach = function forEach() {
+        Array.prototype.forEach.apply(this.element, arguments);
     };
 
-    DOM.prototype.reduceRight = function reduceRight(){
-        return Array.prototype.reduceRight.apply( this.elements, arguments );
+    DOM.prototype.map = function map() {
+        return Array.prototype.map.apply(this.element, arguments);
     };
 
-    DOM.prototype.every = function every(){
-        return Array.prototype.every.apply( this.elements, arguments );
+    DOM.prototype.filter = function filter() {
+        return Array.prototype.filter.apply(this.element, arguments);
     };
 
-    DOM.prototype.some = function some(){
-        return Array.prototype.some.apply( this.elements, arguments );
+    DOM.prototype.reduce = function reduce() {
+        return Array.prototype.reduce.apply(this.element, arguments);
     };
 
+    DOM.prototype.reduceRight = function reduceRight() {
+        return Array.prototype.reduceRight.apply(this.element, arguments);
+    };
+
+    DOM.prototype.every = function every() {
+        return Array.prototype.every.apply(this.element, arguments);
+    };
+
+    DOM.prototype.some = function some() {
+        return Array.prototype.some.apply(this.element, arguments);
+    };
+
+    function getObjType(obj) {
+        return Object.prototype.toString.call(obj);
+    }
+
+    DOM.prototype.isArray = function isArray(obj) {
+        return getObjType(obj) === '[object Array]';
+    };
+
+    DOM.prototype.isObject = function isObject(obj) {
+        return getObjType(obj) === '[object Object]';
+    };
+
+    DOM.prototype.isFunction = function isFunction(obj) {
+        return getObjType(obj) === '[object Function]';
+    };
+
+    DOM.prototype.isNumber = function isNumber(obj) {
+        return getObjType(obj) === '[object Number]';
+    };
+
+    DOM.prototype.isString = function isString(obj) {
+        return getObjType(obj) === '[object String]';
+    };
+
+    DOM.prototype.isBoolean = function isBoolean(obj) {
+        return getObjType(obj) === '[object Boolean]';
+    };
+
+    DOM.prototype.isNull = function isNull(obj) {
+        return getObjType(obj) === '[object Null]'
+        || getObjType(obj) === '[object Undefined]';
+    };
 
     var $link = new DOM( '[data-js="data-link"]' );
     console.log( $link )

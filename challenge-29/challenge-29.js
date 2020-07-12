@@ -1,6 +1,5 @@
-(function() {
+(function( $ ) {
   'use strict';
-
   /*
   Vamos estruturar um pequeno app utilizando módulos.
   Nosso APP vai ser um cadastro de carros. Vamos fazê-lo por partes.
@@ -35,5 +34,78 @@
   E aqui nesse arquivo, faça a lógica para cadastrar os carros, em um módulo
   que será nomeado de "app".
   */
+  var app = (
+    function (){
+      return{
+        init: function(){
+          this.companyInfo();
+          this.initEvents();
+        },
 
-})();
+        initEvents: function initEvents(){
+          $('[data-js="form-carro"]').on('submit', this.handleSubmit);
+        },
+
+        handleSubmit: function handleSubmit(e){
+          e.preventDefault();
+          console.log('submit');
+          var $tableCar = $('[data-js="table-car"]').get();
+          $tableCar.appendChild(app.createNewCar());
+        },
+
+        createNewCar: function createNewCar(){
+          var $fragment = document.createDocumentFragment();
+          var $tr = document.createElement('tr');
+          var $tdImage = document.createElement('td');
+          var $image = document.createElement('img');
+          var $tdBrand = document.createElement('td');
+          var $tdYear = document.createElement('td');
+          var $tdPlate = document.createElement('td');
+          var $tdColor = document.createElement('td');
+
+          $image.setAttribute('src', $('[data-js="image"]').get().value);
+          $tdImage.appendChild($image);
+          
+          $tdBrand.textContent = $('[data-js="brand-model"]').get().value;
+          $tdYear.textContent = $('[data-js="year"]').get().value;
+          $tdPlate.textContent = $('[data-js="plate"]').get().value;
+          $tdColor.textContent = $('[data-js="color"]').get().value;
+
+          $tr.appendChild($tdImage);
+          $tr.appendChild($tdBrand);
+          $tr.appendChild($tdYear);
+          $tr.appendChild($tdPlate);
+          $tr.appendChild($tdColor);
+
+          return $fragment.appendChild($tr);
+
+        },
+
+        companyInfo: function companyInfo(){
+          var ajax = new XMLHttpRequest();
+          ajax.open('GET', '/Estudos/JS/curso-javascript-ninja/challenge-29/company.json', true);
+          ajax.send();        
+          ajax.addEventListener( 'readystatechange', this.getCompanyInfo, false );
+        },
+
+        getCompanyInfo: function getCompanyInfo(){
+          // nessa func, o this é o ajax
+          if(!app.isReady.call(this))
+            return;
+          var data = JSON.parse( this.responseText );
+          var $companyName = $('[data-js="nome-empresa"]').get();
+          var $companyPhone = $('[data-js="telefone-empresa"]').get();
+          $companyName.textContent = data.name;
+          $companyPhone.textContent = data.phone;
+        },
+
+        isReady: function isReady(){
+          return this.readyState === 4 && this.status === 200;
+        }
+      }
+    }
+  )();
+
+  app.init();
+
+})(window.DOM);
